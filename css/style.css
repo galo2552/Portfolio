@@ -1,319 +1,251 @@
 /* =========================================
-   1. VARIABLES Y ESTILOS GLOBALES
+   1. VARIABLES DE LOS TEMAS
 ========================================= */
+
+/* TEMA 1: BRUTALISMO (Por Defecto) */
 :root {
-    --bg-color: #0a0a0c;
-    --text-main: #f4f4f5;
-    --text-muted: #a1a1aa;
-    --accent-color: #8b5cf6;
+    --bg-color: #050505;
+    --text-main: #CCFF00; /* Verde Neón */
+    --text-muted: #e5e5e5;
+    --accent-color: #CCFF00;
+    
+    /* Variables de Estilo Brutal */
+    --fuente-titulos: 'Courier New', Courier, monospace;
+    --fuente-textos: 'Courier New', Courier, monospace;
+    --borde-grosor: 4px;
+    --borde-radio: 0px; /* Cuadrado duro */
+    --sombra-dura: 10px 10px 0px var(--accent-color);
+    --sombra-suave: none;
+    --transicion: all 0.1s ease; /* Transiciones bruscas */
 }
 
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    overflow-x: hidden;
-}
-
-/* Efecto de Luz del Mouse en el fondo */
-body::before {
-    content: "";
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(
-        250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(139, 92, 246, 0.15), 
-        transparent 40%
-    );
-    z-index: -1;
-    pointer-events: none;
-}
-
-/* Utilidades generales */
-.overflow-hidden {
-    overflow: hidden;
-}
-
-.seccion-titulo {
-    font-size: 2.5rem;
-    margin-bottom: 50px;
-    background: linear-gradient(45deg, var(--text-main), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-    letter-spacing: -1px;
+/* TEMA 2: CORPORATIVO / MODERNO */
+body.tema-corporativo {
+    --bg-color: #F8F9FA; /* Blanco humo */
+    --text-main: #1A1A1A; /* Casi negro */
+    --text-muted: #666666;
+    --accent-color: #4338CA; /* Azul profesional */
+    
+    /* Variables de Estilo Corporativo */
+    --fuente-titulos: 'Segoe UI', Roboto, Helvetica, sans-serif;
+    --fuente-textos: 'Segoe UI', Roboto, Helvetica, sans-serif;
+    --borde-grosor: 1px;
+    --borde-radio: 16px;
+    --sombra-dura: none;
+    --sombra-suave: 0 10px 30px rgba(0,0,0,0.08);
+    --transicion: all 0.5s ease; /* Transiciones muy suaves */
 }
 
 /* =========================================
-   2. SECCIÓN: HERO (INICIO)
+   2. ESTILOS GLOBALES
+========================================= */
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--fuente-textos);
+    transition: background-color 1.2s ease, color 1.2s ease;
+    overflow-x: hidden;
+}
+
+/* El Botón Flotante para cambiar temas */
+.btn-flotante {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 100;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border: var(--borde-grosor) solid var(--accent-color);
+    padding: 10px 20px;
+    font-family: var(--fuente-textos);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: var(--borde-radio);
+    box-shadow: var(--sombra-dura);
+    transition: var(--transicion);
+}
+
+.btn-flotante:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 12px 12px 0px var(--accent-color);
+}
+
+body.tema-corporativo .btn-flotante:hover {
+    box-shadow: var(--sombra-suave);
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   3. SECCIÓN HERO
 ========================================= */
 .hero {
     height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
     padding: 0 10%;
 }
 
 .hero-container {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
     align-items: center;
     gap: 50px;
-    width: 100%;
 }
 
-/* Textos del Hero */
 .hero-textos {
-    flex: 1; 
+    flex: 1;
 }
 
-.greeting {
-    color: var(--accent-color);
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.name {
-    font-size: clamp(3rem, 8vw, 6rem);
-    margin: 0;
-    line-height: 1.1;
-    font-weight: 800;
-}
-
-.accent {
-    color: var(--accent-color);
-}
-
-.role {
-    font-size: clamp(2rem, 5vw, 4rem);
-    color: var(--text-muted);
-    margin: 10px 0;
-    line-height: 1.1;
-}
-
-.description {
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    max-width: 500px;
-    line-height: 1.5;
-    margin-top: 30px;
-}
-
-/* Foto del Hero */
-.hero-foto-container {
-    position: relative;
-    width: 350px;
-    height: 450px;
-    opacity: 0; 
-}
-
-.hero-foto {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    border-radius: 20px;
-    position: relative;
-    z-index: 2;
-    filter: grayscale(20%); 
-    transition: all 0.3s ease;
-}
-
-.foto-fondo {
-    content: "";
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--accent-color);
-    border-radius: 20px;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.hero-foto-container:hover .hero-foto {
-    transform: translate(-10px, -10px);
-    filter: grayscale(0%);
-}
-
-.hero-foto-container:hover .foto-fondo {
-    transform: translate(10px, 10px);
-}
-
-/* Indicador de Scroll */
-.scroll-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: 10%;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0;
-}
-
-.scroll-indicator .linea {
-    width: 50px;
-    height: 1px;
-    background-color: var(--accent-color);
-}
-
-/* RESPONSIVE HERO */
-@media (max-width: 900px) {
-    .hero-container {
-        flex-direction: column-reverse; 
-        text-align: center;
-    }
-    .scroll-indicator {
-        display: none;
-    }
-}
-
-/* =========================================
-   3. SECCIÓN: PROYECTOS
-========================================= */
-.proyectos {
-    padding: 50px 10% 20px 10%; 
-}
-
-.proyecto-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-.proyecto-card {
-    background-color: #121214;
-    border: 1px solid #27272a;
-    border-radius: 12px;
-    padding: 20px;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.proyecto-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
-}
-
-.proyecto-img-placeholder {
-    width: 100%;
-    height: 180px;
-    background-color: #27272a;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.proyecto-card h3 {
-    margin: 0 0 10px 0;
-    color: var(--text-main);
-}
-
-.proyecto-card p {
-    margin: 0;
-    color: var(--text-muted);
-    line-height: 1.5;
-    font-size: 0.95rem;
-}
-
-/* =========================================
-   4. SECCIÓN: SOBRE MÍ
-========================================= */
-.sobre-mi {
-    padding: 20px 10% 100px 10%;
-}
-
-.sobre-mi-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-}
-
-.sobre-mi-texto p {
-    color: var(--text-muted);
-    line-height: 1.7;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
-
-.sobre-mi-habilidades h3 {
-    color: var(--text-main);
-    margin-bottom: 25px;
+.saludo {
     font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    font-family: var(--fuente-textos);
 }
 
-.habilidades-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+.nombre {
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-family: var(--fuente-titulos);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
 }
 
-/* RESPONSIVE SOBRE MÍ */
-@media (max-width: 900px) {
-    .sobre-mi-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-}
-
-/* --- Estilos de las Habilidades (Logos) --- */
-.habilidad-tag {
-    background-color: #121214;
-    border: 1px solid #27272a;
+.descripcion {
+    font-size: 1.2rem;
     color: var(--text-muted);
-    width: 70px;
-    height: 70px;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 30px 0;
+}
+
+/* Foto y Decoraciones */
+.hero-visual {
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    border-radius: 16px;
-    font-size: 2.5rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
 }
 
-.habilidad-tag:hover {
-    border-color: var(--brand-color);
-    color: var(--brand-color);
+/* --- La foto para el Modo Brutal (Por defecto) --- */
+.caja-foto {
+    width: 350px;
+    height: 450px;
+    background-color: transparent;
+    border: var(--borde-grosor) solid var(--text-main);
+    border-radius: var(--borde-radio);
+    animation: glitch-sombra 4s infinite;
+    position: relative;
+    transition: border-radius 0.5s ease, border-color 0.5s ease, background-color 0.5s ease;
+    background-image: url('../multimedia/foto-perfil.webp'); 
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- La foto para el Modo Corporativo --- */
+body.tema-corporativo .caja-foto {
+    animation: none; 
+    box-shadow: var(--sombra-suave);
+    border: 6px solid #FFFFFF; 
+    background-image: url('../multimedia/foto-perfil-corp.webp'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;
+}
+
+/* =========================================
+   4. SECCIÓN PROYECTOS
+========================================= */
+.proyectos {
+    padding: 100px 10%;
+}
+
+.titulo-seccion {
+    font-size: 3rem;
+    font-family: var(--fuente-titulos);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+.grid-proyectos {
+    display: grid;
+    /* Crea columnas automáticas que no sean menores a 300px */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+/* Estilo base de la tarjeta (Toma las variables del tema activo) */
+.tarjeta-proyecto {
+    background-color: transparent;
+    border: var(--borde-grosor) solid var(--text-main);
+    border-radius: var(--borde-radio);
+    padding: 20px;
+    box-shadow: var(--sombra-dura);
+    transition: var(--transicion);
+}
+
+/* Modificación específica para cuando está el Modo Corporativo */
+body.tema-corporativo .tarjeta-proyecto {
+    border-color: transparent;
+    background-color: #ffffff; /* Fondo blanco limpio */
+    box-shadow: var(--sombra-suave);
+}
+
+.tarjeta-proyecto:hover {
     transform: translateY(-5px);
-    filter: drop-shadow(0 0 8px var(--brand-color));
+    box-shadow: 10px 10px 0px var(--accent-color);
 }
 
-/* Ajustes para el Logo de GSAP (Imagen/GIF) */
-.logo-personalizado {
-    width: 40px; 
-    height: auto; 
-    display: block;
-    mix-blend-mode: screen; 
+body.tema-corporativo .tarjeta-proyecto:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
 }
 
-.habilidad-tag .logo-personalizado {
-    filter: grayscale(100%) opacity(0.7);
-    transition: all 0.3s ease;
+.imagen-proyecto {
+    width: 100%;
+    height: 200px;
+    background-color: var(--text-muted);
+    border-radius: calc(var(--borde-radio) / 2); 
+    margin-bottom: 20px;
+    opacity: 0.3; /* espacio temporal para foto real */
 }
 
-.habilidad-tag:hover .logo-personalizado {
-    filter: grayscale(0%) opacity(1);
+.tarjeta-proyecto h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.5rem;
+    margin: 0 0 10px 0;
+    color: var(--accent-color);
 }
 
-/* Colores de Marca */
-.tag-html { --brand-color: #E34F26; }
-.tag-css { --brand-color: #1572B6; }
-.tag-js { --brand-color: #F7DF1E; }
-.tag-gsap { --brand-color: #88CE02; }
-.tag-sql { --brand-color: #4479A1; }
-.tag-php { --brand-color: #777BB4; }
+.tarjeta-proyecto p {
+    font-family: var(--fuente-textos);
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
 
+/* =========================================
+   ANIMACIONES EXTRA
+========================================= */
+@keyframes glitch-sombra {
+    0%, 100% { 
+        box-shadow: 10px 10px 0px var(--accent-color); 
+    }
+    10% { 
+        box-shadow: 14px 6px 0px #FF00FF, -4px -4px 0px #00FFFF; /* Magenta y Cian */
+    }
+    15% { 
+        box-shadow: 10px 10px 0px var(--accent-color); 
+    }
+    50% { 
+        box-shadow: 10px 10px 0px var(--accent-color); 
+    }
+    55% { 
+        box-shadow: -5px 15px 0px #00FFFF, 5px -5px 0px #FF00FF; 
+    }
+    60% { 
+        box-shadow: 10px 10px 0px var(--accent-color); 
+    }
+}
